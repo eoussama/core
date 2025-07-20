@@ -71,6 +71,14 @@ jobs:
     - name: Build
       run: pnpm build
 
+    - name: Configure auth for GitHub Packages
+      run: |
+        echo "//npm.pkg.github.com/:_authToken=${TOKEN}" > ~/.npmrc
+        echo "@eoussama:registry=https://npm.pkg.github.com" >> ~/.npmrc
+        echo "always-auth=true" >> ~/.npmrc
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Publish Package
       run: pnpm publish --registry=https://npm.pkg.github.com --no-git-checks
       env:
