@@ -27,13 +27,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "prepack": "unbuild",
+    "prepack": "pnpm build",
+    "build": "pnpm dx lint && unbuild",
     "lint": "pnpm dx lint",
     "fix": "pnpm dx lint --fix"
   },
-  "dependencies": {
-    "@eoussama/dx": "link:../dx",
+  "devDependencies": {
+    "@eoussama/dx": "^0.0.1",
     "unbuild": "^3.5.0"
   }
 }
