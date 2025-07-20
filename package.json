@@ -28,9 +28,12 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "prepack": "unbuild"
+    "prepack": "unbuild",
+    "lint": "pnpm dx lint",
+    "fix": "pnpm dx lint --fix"
   },
   "dependencies": {
+    "@eoussama/dx": "link:../dx",
     "unbuild": "^3.5.0"
   }
 }
