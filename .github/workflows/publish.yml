@@ -13,6 +13,7 @@ on:
 
 jobs:
   npm:
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.registry != 'github')
     runs-on: ubuntu-latest
 
     steps:
@@ -42,6 +43,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   github:
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.registry != 'npm')
     runs-on: ubuntu-latest
     permissions:
       contents: read
