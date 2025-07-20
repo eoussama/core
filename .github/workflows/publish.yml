@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       registry:
-        description: "Where do you want to publish?"
+        description: Where do you want to publish?
         type: choice
         options: [npm, github, both]
         default: both
