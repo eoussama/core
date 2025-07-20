@@ -3,6 +3,13 @@ name: Publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      registry:
+        description: "Where do you want to publish?"
+        type: choice
+        options: [npm, github, both]
+        default: both
 
 jobs:
   npm:
@@ -51,17 +58,21 @@ jobs:
       with:
         node-version: 20.x
         registry-url: "https://npm.pkg.github.com"
+        scope: "@eoussama"
+        always-auth: true
 
     - name: Enable PNPM
       run: corepack enable
 
     - name: Install Dependencies
       run: pnpm install
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
       run: pnpm build
 
     - name: Publish Package
-      run: npm publish
+      run: pnpm publish --no-git-checks
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
