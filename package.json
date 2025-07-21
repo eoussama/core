@@ -27,7 +27,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "pnpm build && pnpm test",
+    "prepack": "pnpm build && pnpm test --coverage",
     "build": "pnpm dx lint && unbuild",
     "test": "jest",
     "lint": "pnpm dx lint",
@@ -37,6 +37,8 @@
     "@eoussama/dx": "^0.0.1",
     "@types/jest": "^30.0.0",
     "jest": "^30.0.4",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.8.3",
     "unbuild": "^3.5.0"
   }
 }
