@@ -27,9 +27,9 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "pnpm build && pnpm test --coverage",
+    "prepack": "pnpm build && pnpm test",
     "build": "pnpm dx lint && unbuild",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "pnpm dx lint",
     "fix": "pnpm dx lint --fix"
   },
