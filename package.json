@@ -32,7 +32,7 @@
     "test": "jest --coverage",
     "lint": "pnpm dx lint",
     "fix": "pnpm dx lint --fix",
-    "docs": "pnpm typedoc"
+    "doc": "pnpm typedoc"
   },
   "dependencies": {
     "@eoussama/dx": "^0.0.3"
