@@ -51,8 +51,10 @@ describe("tryCatch", () => {
     };
 
     const [error] = await tryCatch(fn);
+
     if (!(error instanceof Error)) {
       fail("Error is not an instance of Error");
+
       return;
     }
 
@@ -90,9 +92,12 @@ describe("tryCatch", () => {
     const fn = () => {
       throw new Error("sync fail");
     };
+
     const [error] = await tryCatch(fn);
+
     if (!(error instanceof Error)) {
       fail("Error is not an instance of Error");
+
       return;
     }
 

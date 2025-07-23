@@ -21,11 +21,13 @@ describe("isPromise", () => {
 
   it("should return true for a thenable object", () => {
     const thenable = { then() { } };
+
     expect(isPromise(thenable)).toBe(true);
   });
 
   it("should return false for an object with a non-function then property", () => {
     const fakeThenable = { then: 123 };
+
     expect(isPromise(fakeThenable)).toBe(false);
   });
 
