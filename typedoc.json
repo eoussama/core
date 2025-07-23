@@ -1,0 +1,11 @@
+{
+  "out": "doc",
+  "themeColor": "#2f4165",
+  "categorizeByGroup": true,
+  "plugin": [
+    "typedoc-material-theme"
+  ],
+  "entryPoints": [
+    "src/index.ts"
+  ]
+}
