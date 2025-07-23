@@ -31,13 +31,16 @@
     "build": "pnpm dx lint && unbuild",
     "test": "jest --coverage",
     "lint": "pnpm dx lint",
-    "fix": "pnpm dx lint --fix"
+    "fix": "pnpm dx lint --fix",
+    "docs": "pnpm typedoc"
   },
   "devDependencies": {
     "@eoussama/dx": "^0.0.2",
     "@types/jest": "^30.0.0",
     "jest": "^30.0.4",
     "ts-jest": "^29.4.0",
+    "typedoc": "^0.28.7",
+    "typedoc-material-theme": "^1.4.0",
     "typescript": "^5.8.3",
     "unbuild": "^3.5.0"
   }
