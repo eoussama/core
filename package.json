@@ -35,7 +35,7 @@
     "doc": "pnpm typedoc"
   },
   "dependencies": {
-    "@eoussama/dx": "^0.0.3"
+    "@eoussama/dx": "^0.0.4"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
