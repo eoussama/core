@@ -12,7 +12,7 @@ We have a [Code of Conduct](CODE_OF_CONDUCT.md) that we expect all contributors 
 
 - If you are new to our project, please review our [README](README.md) for an overview of the project and how to get started.
 
-- Check our [Issues](https://github.com/eoussama/dx/issues) to find tasks that need assistance or to report any bugs or feature requests.
+- Check our [Issues](https://github.com/eoussama/core/issues) to find tasks that need assistance or to report any bugs or feature requests.
 
 ## How to Contribute
 
