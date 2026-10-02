@@ -1,4 +1,4 @@
-import type { TError } from "./error.type";
+import type { TError } from "./error.type.ts";
 
 
 

@@ -1,4 +1,4 @@
-import type { TNullable } from "./nullable.type";
+import type { TNullable } from "./nullable.type.ts";
 
 
 

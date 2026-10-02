@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "types": ["jest"],
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
     "strict": true,
-    "outDir": "dist",
-    "esModuleInterop": true,
+    "noUncheckedIndexedAccess": true,
+    "declaration": true,
+    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedDeclarations": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "skipLibCheck": true
   },
   "include": ["src", "test"]

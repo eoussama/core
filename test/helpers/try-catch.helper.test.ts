@@ -1,140 +1,94 @@
-import { tryCatch } from "../../src/helpers/try-catch.helper";
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
+
+import { tryCatch, tryCatchSync } from "../../src/helpers/try-catch.helper.ts";
 
 
 
 describe("tryCatch", () => {
-  it("should resolve and return [result, null]", async () => {
-    const fn = async () => 42;
-    const [, result] = await tryCatch(fn);
-
-    expect(result).toBe(42);
+  it("should resolve and return [null, result]", async () => {
+    assert.deepEqual(await tryCatch(async () => 42), [null, 42]);
   });
 
-  it("should resolve and return [result, null] with null error", async () => {
-    const fn = async () => 42;
-    const [error] = await tryCatch(fn);
+  it("should accept a synchronous function that returns a value", async () => {
+    assert.deepEqual(await tryCatch(() => 42), [null, 42]);
+  });
 
-    expect(error).toBeNull();
+  it("should accept a promise directly", async () => {
+    assert.deepEqual(await tryCatch(Promise.resolve("ok")), [null, "ok"]);
   });
 
   it("should reject and return [error, null]", async () => {
-    const fn = async () => {
+    const [error, result] = await tryCatch(async () => {
       throw new Error("fail");
-    };
-    const [error, result] = await tryCatch(fn);
+    });
 
-    expect(error).toBeInstanceOf(Error);
-    expect(result).toBeNull();
+    assert.ok(error instanceof Error);
+    assert.equal(error.message, "fail");
+    assert.equal(result, null);
   });
 
-  it("should reject and return error instance", async () => {
-    const fn = async () => {
-      throw new Error("fail");
-    };
-    const [error] = await tryCatch(fn);
+  it("should return [error, null] for a rejected promise", async () => {
+    const [error, result] = await tryCatch(Promise.reject(new Error("rejected")));
 
-    expect(error).toBeInstanceOf(Error);
+    assert.equal(error?.message, "rejected");
+    assert.equal(result, null);
   });
 
-  it("should reject with error of type Error", async () => {
-    const fn = async () => {
-      throw new Error("fail");
-    };
-    const [error] = await tryCatch(fn);
-
-    expect(error instanceof Error).toBe(true);
-  });
-
-  it("should return error with correct message when rejected", async () => {
-    const fn = async () => {
-      throw new Error("fail");
-    };
-
-    const [error] = await tryCatch(fn);
-
-    if (!(error instanceof Error)) {
-      fail("Error is not an instance of Error");
-
-      return;
-    }
-
-    expect(error.message).toBe("fail");
-  });
-
-  it("should catch synchronous throw and return [null, error]", async () => {
-    const fn = () => {
+  it("should catch a synchronous throw", async () => {
+    const [error, result] = await tryCatch(() => {
       throw new Error("sync fail");
-    };
-    const [, result] = await tryCatch(fn);
+    });
 
-    expect(result).toBeNull();
+    assert.ok(error instanceof Error);
+    assert.equal(error.message, "sync fail");
+    assert.equal(result, null);
   });
 
-  it("should catch synchronous throw and return error instance", async () => {
-    const fn = () => {
-      throw new Error("sync fail");
-    };
-    const [error] = await tryCatch(fn);
-
-    expect(error).toBeInstanceOf(Error);
+  it("should resolve with undefined and a null error", async () => {
+    assert.deepEqual(await tryCatch(async () => undefined), [null, undefined]);
   });
 
-  it("should catch synchronous throw with error of type Error", async () => {
-    const fn = () => {
-      throw new Error("sync fail");
-    };
-    const [error] = await tryCatch(fn);
-
-    expect(error instanceof Error).toBe(true);
-  });
-
-  it("should return error with correct message when thrown synchronously", async () => {
-    const fn = () => {
-      throw new Error("sync fail");
-    };
-
-    const [error] = await tryCatch(fn);
-
-    if (!(error instanceof Error)) {
-      fail("Error is not an instance of Error");
-
-      return;
-    }
-
-    expect(error.message).toBe("sync fail");
-  });
-
-  it("should resolve with undefined", async () => {
-    const fn = async () => undefined;
-    const [, result] = await tryCatch(fn);
-
-    expect(result).toBeUndefined();
-  });
-
-  it("should resolve with undefined and null error", async () => {
-    const fn = async () => undefined;
-    const [error] = await tryCatch(fn);
-
-    expect(error).toBeNull();
-  });
-
-  it("should reject with a custom error object", async () => {
+  it("should keep a custom thrown object as the error", async () => {
     const customError = { code: 123, msg: "custom" };
-    const fn = async () => {
+    const [error, result] = await tryCatch(async () => {
       throw customError;
-    };
-    const [, result] = await tryCatch(fn);
+    });
 
-    expect(result).toBeNull();
+    assert.equal(error, customError);
+    assert.equal(result, null);
   });
 
-  it("should reject with a custom error object as error", async () => {
-    const customError = { code: 123, msg: "custom" };
-    const fn = async () => {
-      throw customError;
-    };
-    const [error] = await tryCatch(fn);
+  it("should wrap a thrown null or undefined so the failure is never mistaken for a success", async () => {
+    for (const thrown of [null, undefined]) {
+      const [error] = await tryCatch(async () => {
+        throw thrown;
+      });
 
-    expect(error).toBe(customError);
+      assert.ok(error instanceof Error);
+      assert.equal(error.cause, thrown);
+    }
+  });
+});
+
+describe("tryCatchSync", () => {
+  it("should return [null, result]", () => {
+    assert.deepEqual(tryCatchSync(() => 42), [null, 42]);
+  });
+
+  it("should return [error, null] when the function throws", () => {
+    const [error, result] = tryCatchSync(() => JSON.parse("{"));
+
+    assert.ok(error instanceof SyntaxError);
+    assert.equal(result, null);
+  });
+
+  it("should wrap a thrown undefined", () => {
+    const [error] = tryCatchSync(() => {
+      // eslint-disable-next-line no-throw-literal
+      throw undefined;
+    });
+
+    assert.ok(error instanceof Error);
   });
 });
