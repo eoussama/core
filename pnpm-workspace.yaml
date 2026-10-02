@@ -1,0 +1,9 @@
+minimumReleaseAgeExcludePrune: true
+# pnpm 12 rejects releases newer than minimumReleaseAge (1 day by default).
+# These were published right before the 0.1.0 upgrade and are pruned automatically once old enough.
+minimumReleaseAgeExclude:
+  - "@eoussama/dx@0.1.1"
+  - "@types/node@26.6.4"
+
+trustPolicy: no-downgrade
+shellEmulator: true
