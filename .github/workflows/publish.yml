@@ -67,13 +67,19 @@ jobs:
       with:
         node-version: 24
         cache: pnpm
-        registry-url: "https://npm.pkg.github.com"
 
+    # The GitHub registry is only configured at publish time, otherwise it would
+    # also be used to resolve @eoussama/* dev dependencies such as @eoussama/dx.
     - name: Install Dependencies
       run: pnpm install --frozen-lockfile
+
+    - name: Configure GitHub Packages
+      run: |
+        npm config set @eoussama:registry https://npm.pkg.github.com
+        npm config set //npm.pkg.github.com/:_authToken "$NODE_AUTH_TOKEN"
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # prepack type checks, lints, builds and tests the package.
     - name: Publish Package
       run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
