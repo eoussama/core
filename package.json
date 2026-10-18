@@ -1,7 +1,7 @@
 {
   "name": "@eoussama/core",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packageManager": "pnpm@12.14.0",
   "description": "Lightweight, zero-dependency TypeScript utilities for Node.js and browsers.",
   "author": "eoussama",
