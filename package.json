@@ -1,8 +1,8 @@
 {
   "name": "@eoussama/core",
   "type": "module",
-  "version": "0.1.0",
-  "packageManager": "pnpm@12.8.1+sha512.f64ba907507f5ceafe06c8d38e6052d0179444580ec1279ddd5bfc11cb48aa8a2644b66598e07e761da84872a9fc57d5f902b87fa49d024198d558612aabbe45",
+  "version": "0.1.1",
+  "packageManager": "pnpm@12.14.0",
   "description": "Lightweight, zero-dependency TypeScript utilities for Node.js and browsers.",
   "author": "eoussama",
   "license": "MIT",
@@ -55,13 +55,14 @@
     "typecheck": "tsc --noEmit",
     "lint": "dx lint",
     "fix": "dx fix",
-    "doc": "typedoc"
+    "doc": "typedoc",
+    "check": "pnpm audit && pnpm typecheck && pnpm build && pnpm lint && pnpm test && pnpm doc"
   },
   "devDependencies": {
-    "@eoussama/dx": "^0.1.1",
-    "@types/node": "^26.6.4",
+    "@eoussama/dx": "^0.1.2",
+    "@types/node": "^24.19.2",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "tsdown": "^0.23.0",
+    "tsdown": "^0.23.1",
     "typedoc": "^0.28.20",
     "typedoc-material-theme": "^1.4.1",
     "typescript": "npm:@typescript/typescript6@^6.0.2"

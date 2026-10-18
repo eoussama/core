@@ -91,7 +91,7 @@ Refer to the [documentation](https://ouss.es/core) for a full API reference.
 
 ## Development
 
-Requires Node.js `^22.18.0 || ^24.11.0 || >=26` and pnpm 12.
+Requires Node.js 24 and pnpm 12.
 
 ### Scripts
 
