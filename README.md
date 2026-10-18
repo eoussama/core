@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="220" alt="Core logo" src="https://github.com/eoussama/core/blob/main/assets/logo.png?raw=true">
+  <img width="180" alt="Core logo" src="https://github.com/eoussama/core/blob/main/assets/logo.png?raw=true">
 </p>
 
 <p align="center">Lightweight, zero-dependency TypeScript utilities for Node.js and browsers.</p>
