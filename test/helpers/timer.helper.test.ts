@@ -86,15 +86,58 @@ describe("wait", () => {
     await assert.rejects(wait(100, { signal: AbortSignal.abort(reason) }), reason);
   });
 
-  it("should resolve and detach from a signal that is never aborted", async () => {
+  it("should resolve and detach from a signal that is never aborted", async (t) => {
     const controller = new AbortController();
+    const add = t.mock.method(controller.signal, "addEventListener");
+    const remove = t.mock.method(controller.signal, "removeEventListener");
     const promise = wait(10, { signal: controller.signal });
 
     mock.timers.tick(10);
     await promise;
 
+    assert.equal(remove.mock.callCount(), 1);
+    assert.deepEqual(remove.mock.calls[0]?.arguments.slice(0, 2), add.mock.calls[0]?.arguments.slice(0, 2));
+
     controller.abort();
     assert.equal(await isSettled(promise), true);
+  });
+});
+
+// Real timers are spied on here, mocked timers would be swapped back in when the spies are restored.
+describe("timer cleanup", () => {
+  it("should clear the wait timer when aborted", async (t) => {
+    const set = t.mock.method(globalThis, "setTimeout");
+    const clear = t.mock.method(globalThis, "clearTimeout");
+    const controller = new AbortController();
+    const promise = wait(100, { signal: controller.signal });
+    const timer = set.mock.calls.at(-1)?.result;
+
+    controller.abort();
+
+    await assert.rejects(promise);
+    assert.ok(clear.mock.calls.some(call => call.arguments[0] === timer));
+  });
+
+  it("should clear the timeout timer when the promise resolves", async (t) => {
+    const set = t.mock.method(globalThis, "setTimeout");
+    const clear = t.mock.method(globalThis, "clearTimeout");
+    const promise = withTimeout(Promise.resolve(42), 100);
+    const timer = set.mock.calls.at(-1)?.result;
+
+    await promise;
+
+    assert.ok(clear.mock.calls.some(call => call.arguments[0] === timer));
+  });
+
+  it("should clear the timeout timer when the promise rejects", async (t) => {
+    const set = t.mock.method(globalThis, "setTimeout");
+    const clear = t.mock.method(globalThis, "clearTimeout");
+    const promise = withTimeout(Promise.reject(new Error("fail")), 100);
+    const timer = set.mock.calls.at(-1)?.result;
+
+    await assert.rejects(promise);
+
+    assert.ok(clear.mock.calls.some(call => call.arguments[0] === timer));
   });
 });
 

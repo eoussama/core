@@ -97,6 +97,7 @@ Requires Node.js 24 and pnpm 12.
 
 - `pnpm build` – Lint and build the package
 - `pnpm test` – Run tests with coverage
+- `pnpm mutate` – Run mutation tests
 - `pnpm typecheck` – Type check the codebase
 - `pnpm lint` – Lint the codebase
 - `pnpm fix` – Lint and auto-fix issues

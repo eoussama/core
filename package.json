@@ -52,6 +52,7 @@
     "prepack": "pnpm typecheck && pnpm build && pnpm test",
     "build": "pnpm lint && tsdown",
     "test": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 \"test/**/*.test.ts\"",
+    "mutate": "stryker run",
     "typecheck": "tsc --noEmit",
     "lint": "dx lint",
     "fix": "dx fix",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@eoussama/dx": "^0.1.2",
+    "@stryker-mutator/core": "^10.0.0",
     "@types/node": "^24.19.2",
     "@typescript/native": "npm:typescript@^7.0.2",
     "tsdown": "^0.23.1",

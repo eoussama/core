@@ -7,7 +7,9 @@ minimumReleaseAgeExclude:
 trustPolicy: no-downgrade
 shellEmulator: true
 
-# GHSA-238p-pmpm-9mq7: micromark-extension-math (via @eoussama/dx's ESLint markdown support)
-# still pins katex@^0.16.0, which has no patched release.
+# Transitive dev dependencies pinned to vulnerable ranges with no patched release:
+# - katex (GHSA-238p-pmpm-9mq7): pinned to ^0.16.0 by micromark-extension-math, via @eoussama/dx.
+# - qs (GHSA-q8mj-m7cp-5q26, GHSA-x5fp-wj9c-mxmx, GHSA-4mjr-xmp4-gh2g): pinned to 6.15.1 by typed-rest-client, via @stryker-mutator/core.
 overrides:
   katex@>=0.11.0 <0.18.2: ^0.18.2
+  qs@>=2.2.5 <6.16.0: ^6.16.0

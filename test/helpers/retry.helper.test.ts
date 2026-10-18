@@ -85,12 +85,15 @@ describe("retry", () => {
     await assert.rejects(retry(flaky(0), { signal: AbortSignal.abort(reason) }), reason);
   });
 
-  it("should reject when the signal is aborted during a delay", async () => {
+  it("should reject as soon as the signal is aborted during a delay", async (t) => {
+    t.mock.timers.enable({ apis: ["setTimeout"] });
+
     const controller = new AbortController();
     const reason = new Error("aborted");
     const promise = retry(flaky(10), { delay: 1_000, signal: controller.signal });
 
-    setTimeout(() => controller.abort(reason), 5);
+    await new Promise(resolve => setImmediate(resolve));
+    controller.abort(reason);
 
     await assert.rejects(promise, reason);
   });
